@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <!-- AdminLTE CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css" integrity="sha512-IuO+tczf4J43RzbCMEFggCWW5JuX78IrCJRFFBoQEXNvGI6gkUw4OjuwMidiS4Lm9Q2lILzpJwZuMWuSEeT9UQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- AdminLTE JS -->
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1.0/dist/js/adminlte.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    $(document).ready(function () {
+      function tedarikcileriGetir() {
+            $.ajax({
+                url: "http://localhost:3000/api/tedarikcileriGetir",
+                type: "GET",
+                dataType: "json",
+                success: function (response) {
+                    if (Array.isArray(response) && response.length > 0) {
+                        // Clear existing table rows
+                        $("#tedarikcilerTableBody").empty();
+
+                        // Append new rows
+                        $.each(response, function (index, item) {
+                            var row = `<tr>
+                                <th>${item.tedarikci_id}</th>
+                                <th>${item.tedarikci_ad}</th>
+                                <th>${item.telefon}</th>
+                                <th>${item.adres}</th>
+                            </tr>`;
+                            $("#tedarikcilerTableBody").append(row);
+                        });
+                    } else {
+                        console.error("Unexpected response format or empty data:", response);
+                    }
+                },
+                error: function (error) {
+                    console.error("Veri çekme hatası:", error);
+                }
+            });
+        }
+
+        // Call the function to fetch and display data
+        tedarikcileriGetir();
+
+        // Enable Bootstrap tooltips and popovers
+        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="popover"]').popover();
+
+        // Enable Bootstrap dropdowns
+        $('.heh').dropdown();
+
+        // Enable sidebar toggling
+        // $('[data-widget="pushmenu"]').on('click', function () {
+        //     $("body").toggleClass('sidebar-collapse');
+        // });
+    });
+</script>
+
+   
+</head>
+<body class="sidebar-mini sidebar-collapse layout-fixed">
+  <div class="wrapper">
+    <!-- Navbar and Sidebar Toggler -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+      
+
+      <!-- Home Button -->
+      <!-- <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="./main.html" role="button">
+            <i class="fas fa-home"></i> Home
+          </a>
+        </li>
+      </ul>
+       -->
+
+      <!-- Links and Logo -->
+      <!-- You can customize this section based on your needs -->
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-user"></i> Manager User Name
+          </a>
+        </li>
+      </ul>
+
+      <!-- Search Bar -->
+      <form class="form-inline ml-3">
+        <div class="input-group input-group-sm">
+          <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+          <div class="input-group-append">
+            <button class="btn btn-navbar" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+      <a href="/main.html" class="brand-link mx-4">
+        <i class="fas fa-home"></i> 
+        <span class="brand-text font-weight-light">Home</span>
+      </a>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Sidebar User Panel -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+          <div class="image">
+            <img src="/time" class="img-circle elevation-2" alt="User Image">
+          </div>
+          <div class="info">
+            <a href="#" class="d-block">Manager User</a>
+          </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link heh" id="tedarikDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="nav-icon fas fa-truck"></i>
+                <p>Tedarik</p>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="tedarikDropdown">
+                <a class="dropdown-item" href="/tedarikciler.html">
+                  <i class="far fa-circle nav-icon"></i>
+                  <span class="menu-text text-dark">Tedarikçiler</span>
+                </a>
+                <a class="dropdown-item" href="/tedarik_analiz.html">
+                  <i class="far fa-circle nav-icon"></i>
+                  <span class="menu-text text-dark">Tedarik Analizi</span>
+                </a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link heh" id="urunlerDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="nav-icon fas fa-box"></i>
+                <p>Ürünler</p>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="urunlerDropdown">
+                <a class="dropdown-item" href="/urunler.html">
+                  <i class="far fa-circle nav-icon"></i>
+                  <span class="menu-text text-dark">Ürün Bilgileri</span>
+                </a>
+                <a class="dropdown-item" href="/urun_analiz.html">
+                  <i class="far fa-circle nav-icon"></i>
+                  <span class="menu-text text-dark">Analiz</span>
+                </a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link heh" id="satislarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="nav-icon fas fa-dollar-sign"></i>
+                <p>Satışlar</p>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="satislarDropdown">
+                <a class="dropdown-item" href="/satislar.html">
+                  <i class="far fa-circle nav-icon"></i>
+                  <span class="menu-text text-dark">Satış Bilgileri</span>
+                </a>
+                <a class="dropdown-item" href="/satis_analiz.html">
+                  <i class="far fa-circle nav-icon"></i>
+                  <span class="menu-text text-dark">Analiz</span>
+                </a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a href="/kategori.html" class="nav-link">
+                <i class="nav-icon fas fa-list"></i>
+                <p>Kategori</p>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </aside>
+    <div class="content-wrapper">
+      <div class="container-fluid">
+      <div class="row">
+  
+          <div class="col-lg-6">
+    
+            <div class="card">
+    
+              <div class="card-header">
+    
+                <h3 class="card-title">6 Aylık Stok Talep Tahmini (Üst Giyim)</h3>
+    
+              </div>
+    
+              <div class="card-body">
+    
+                <!-- Add your chart code here -->
+                <div>
+                  <label for="productSelect">Product:</label>
+                  <select id="productSelect" onchange="updateChart()">
+                      <option value="all">All Products</option>
+                      <option value="greenMaleKnitSweater">Yeşil Erkek Örgü Süveter</option>
+                      <option value="greenFemaleSweater">Yeşil Kadın Süveter</option>
+                      <option value="orangeMaleKnitSweater">Turuncu Erkek Örgü Süveter</option>
+                      <option value="blackFemaleLeatherJacket">Siyah Kadın Deri Ceket</option>
+                      <!-- Add other products here -->
+                  </select>
+              </div>
+              <div>
+                  <label for="percentageSelect">Percentage:</label>
+                  <select id="percentageSelect" onchange="updateChart()">
+                      <option value="0">Normal</option>
+                      <option value="-0.2">-20%</option>
+                      <option value="0.2">20%</option>
+                      <option value="-0.5">-50%</option>
+                      <option value="0.5">50%</option>
+                  </select>
+              </div>
+              <div>
+                  <canvas id="stokTahminiChart" width="400" height="200"></canvas>
+              </div>
+          
+              <script>
+                  // Store the reference to the current chart instance
+                  let myChart;
+          
+                  // Calculate data for all products
+                  function calculateAllProductsData(data, percentage) {
+                      var allProductsData = {};
+          
+                      for (var product in data) {
+                          allProductsData[product] = data[product].map(value => value * (1 + percentage));
+                      }
+          
+                      return allProductsData;
+                  }
+          
+                  // Create a new Chart.js instance
+                  function createChart(data) {
+                      var ctx = document.getElementById("stokTahminiChart").getContext("2d");
+          
+                      myChart = new Chart(ctx, {
+                          type: "line",
+                          data: {
+                              labels: months,
+                              datasets: data,
+                          },
+                          options: {
+                              scales: {
+                                  y: {
+                                      beginAtZero: true,
+                                  },
+                              },
+                          },
+                      });
+                  }
+          
+                  // Generate a random color
+                  function getRandomColor() {
+                      var letters = '0123456789ABCDEF';
+                      var color = '#';
+                      for (var i = 0; i < 6; i++) {
+                          color += letters[Math.floor(Math.random() * 16)];
+                      }
+                      return color;
+                  }
+          
+                  // Update the chart when selection changes
+                  window.updateChart = function () {
+                      selectedProduct = document.getElementById("productSelect").value;
+                      selectedPercentage = parseFloat(document.getElementById("percentageSelect").value);
+          
+                      // Destroy the existing chart instance
+                      if (myChart) {
+                          myChart.destroy();
+                      }
+          
+                      var updatedData;
+          
+                      if (selectedPercentage === 0) {
+                          // If the percentage is 0, show the normal data for the selected product or all products
+                          updatedData = (selectedProduct === "all")
+                              ? initialData
+                              : {
+                                  [selectedProduct]: initialData[selectedProduct],
+                              };
+                      } else {
+                          // Otherwise, calculate the updated data based on the selected percentage
+                          updatedData = (selectedProduct === "all")
+                              ? calculateAllProductsData(initialData, selectedPercentage)
+                              : {
+                                  [selectedProduct]: initialData[selectedProduct].map(value => value * (1 + selectedPercentage)),
+                              };
+                      }
+          
+                      // Convert the data to datasets for Chart.js
+                      var datasets = Object.keys(updatedData).map(product => ({
+                          label: product,
+                          data: updatedData[product],
+                          borderColor: getRandomColor(),
+                          borderWidth: 2,
+                          fill: false,
+                      }));
+          
+                      // Create a new chart instance
+                      createChart(datasets);
+                  };
+          
+                  document.addEventListener("DOMContentLoaded", function () {
+                      // Initially create the chart with all products
+                      updateChart();
+                  });
+          
+                  var months = ["Eylül", "Ekim", "Kasım", "Aralık", "Ocak", "Şubat", "Mart"];
+                  var initialData = {
+                      greenMaleKnitSweater: [500, 700, 1000, 800, 1200, 1000, 1500],
+                      greenFemaleSweater: [600, 800, 950, 750, 1100, 900, 1300],
+                      orangeMaleKnitSweater: [550, 750, 900, 700, 1000, 800, 1100],
+                      blackFemaleLeatherJacket: [450, 650, 800, 600, 900, 700, 1000],
+                      // Add other products here
+                  };
+              </script>
+  </div>
+    
+            </div>
+    
+          </div>
+    
+          <div class="col-lg-6">
+    
+            <div class="card">
+    
+              <div class="card-header">
+    
+                <h3 class="card-title">6 Aylık Stok Talep Tahmini (Alt Giyim)</h3>
+    
+              </div>
+    
+              <div class="card-body">
+    
+                <!-- Add your chart code here -->
+                <div>
+                  <label for="bottomWearSelect">Product:</label>
+                  <select id="bottomWearSelect" onchange="updateBottomWearChart()">
+                      <option value="all">All Products</option>
+                      <option value="blackMaleFabricPants">Siyah Erkek Kumaş Pantolon</option>
+                      <option value="blueFemaleJeans">Mavi Kadın Kot Pantolon</option>
+                      <option value="greyMaleCargoPants">Gri Erkek Kargo Pantolon</option>
+                      <option value="redFemaleLeggings">Kırmızı Kadın Tayt</option>
+                      <option value="brownMaleChinos">Erkek Kahverengi Kot Pantolon</option>
+                      <!-- Add other products here -->
+                  </select>
+              </div>
+              <div>
+                  <label for="bottomWearPercentageSelect">Percentage:</label>
+                  <select id="bottomWearPercentageSelect" onchange="updateBottomWearChart()">
+                      <option value="0">Normal</option>
+                      <option value="-0.2">-20%</option>
+                      <option value="0.2">20%</option>
+                      <option value="-0.5">-50%</option>
+                      <option value="0.5">50%</option>
+                  </select>
+              </div>
+              <div>
+                  <canvas id="altGiyimTahminiChart" width="800" height="400"></canvas>
+              </div>
+          
+              <script>
+                  // Store the reference to the current chart instance
+                  let bottomWearChart;
+          
+                  // Create a new Chart.js instance for bottom wear
+                  function createBottomWearChart(data) {
+                      var ctx = document.getElementById("altGiyimTahminiChart").getContext("2d");
+          
+                      bottomWearChart = new Chart(ctx, {
+                          type: "line",
+                          data: {
+                              labels: months,
+                              datasets: data,
+                          },
+                          options: {
+                              scales: {
+                                  y: {
+                                      beginAtZero: true,
+                                  },
+                              },
+                          },
+                      });
+                  }
+          
+                  // Update the bottom wear chart when selection changes
+                  window.updateBottomWearChart = function () {
+                      selectedBottomWearProduct = document.getElementById("bottomWearSelect").value;
+                      selectedBottomWearPercentage = parseFloat(document.getElementById("bottomWearPercentageSelect").value);
+          
+                      // Destroy the existing bottom wear chart instance
+                      if (bottomWearChart) {
+                          bottomWearChart.destroy();
+                      }
+          
+                      var updatedBottomWearData;
+          
+                      if (selectedBottomWearPercentage === 0) {
+                          // If the percentage is 0, show the normal data for the selected product or all products
+                          updatedBottomWearData = (selectedBottomWearProduct === "all")
+                              ? bottomWearInitialData
+                              : {
+                                  [selectedBottomWearProduct]: bottomWearInitialData[selectedBottomWearProduct],
+                              };
+                      } else {
+                          // Otherwise, calculate the updated data based on the selected percentage
+                          updatedBottomWearData = (selectedBottomWearProduct === "all")
+                              ? calculateAllBottomWearData(bottomWearInitialData)
+                              : {
+                                  [selectedBottomWearProduct]: bottomWearInitialData[selectedBottomWearProduct].map(value => value * (1 + selectedBottomWearPercentage)),
+                              };
+                      }
+          
+                      // Convert the data to datasets for Chart.js
+                      var bottomWearDatasets = Object.keys(updatedBottomWearData).map(product => ({
+                          label: product,
+                          data: updatedBottomWearData[product],
+                          borderColor: getRandomColor(),
+                          borderWidth: 2,
+                          fill: false,
+                      }));
+          
+                      // Create a new bottom wear chart instance
+                      createBottomWearChart(bottomWearDatasets);
+                  };
+          
+                  document.addEventListener("DOMContentLoaded", function () {
+                      // Initially create the bottom wear chart with all products
+                      updateBottomWearChart();
+                  });
+          
+                  var months = ["Eylül", "Ekim", "Kasım", "Aralık", "Ocak", "Şubat", "Mart"];
+                  var bottomWearInitialData = {
+                      blackMaleFabricPants: [300, 500, 700, 550, 800, 700, 950],
+                      blueFemaleJeans: [500, 750, 950, 800, 1100, 900, 1545],
+                      greyMaleCargoPants: [450, 700, 850, 600, 1000, 800, 1100],
+                      redFemaleLeggings: [250, 400, 600, 450, 700, 500, 800],
+                      brownMaleChinos: [350, 550, 750, 600, 850, 700, 950],
+                      // Add other products here
+                  };
+          
+                  // Calculate data for all bottom wear products
+                  function calculateAllBottomWearData(data) {
+                      var allBottomWearData = {};
+          
+                      for (var product in data) {
+                          allBottomWearData[product] = data[product].map(value => value * (1 + selectedBottomWearPercentage));
+                      }
+          
+                      return allBottomWearData;
+                  }
+          
+                  // Generate a random color
+                  function getRandomColor() {
+                      var letters = '0123456789ABCDEF';
+                      var color = '#';
+                      for (var i = 0; i < 6; i++) {
+                          color += letters[Math.floor(Math.random() * 16)];
+                      }
+                      return color;
+                  }
+              </script>
+                   </div>
+    
+            </div>
+    
+          </div>
+    
+        </div>
+        <div class="row">
+  
+          <div class="col-lg-6">
+    
+            <div class="card">
+    
+              <div class="card-header">
+    
+                <h3 class="card-title">Geçiş Dönemleri Stok Talep Tahmini</h3>
+    
+              </div>
+    
+              <div class="card-body">
+    
+                <!-- Add your chart code here -->
+                <canvas id="stokTalepAnaliziChart" width="800" height="400"></canvas>
+
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                       
+                        var seasons = ["Sonbahar", "Ilkbahar"];
+                        var greenSweater = [500, 90];
+                        var blueJeans = [80, 350];
+                        var redDress = [253, 532];
+                        var blackJacket = [345, 100];
+                        var whiteTShirt = [100, 671];
+                        var grayCoat = [496, 80];
+                        var brownPants = [367, 110];
+                        var pinkBlouse = [40, 398];
+                        var yellowScarf = [495, 50];
+                        var orangeJacket = [278, 70];
+                        var purpleSkirt = [65, 437];
+                        var stripedShirt = [75, 195];
+                
+                        // Chart.js ile çubuk grafiği oluştur
+                        var ctx = document.getElementById("stokTalepAnaliziChart").getContext("2d");
+                        var myChart = new Chart(ctx, {
+                            type: "bar",
+                            data: {
+                                labels: seasons,
+                                datasets: [
+                                    {
+                                        label: "Yeşil Kazak",
+                                        data: greenSweater,
+                                        backgroundColor: "rgba(255, 99, 132, 0.7)",
+                                        borderColor: "rgba(255, 99, 132, 1)",
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: "Mavi Kot Pantolon",
+                                        data: blueJeans,
+                                        backgroundColor: "rgba(54, 162, 235, 0.7)",
+                                        borderColor: "rgba(54, 162, 235, 1)",
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: "Kırmızı Elbise",
+                                        data: redDress,
+                                        backgroundColor: "rgba(255, 206, 86, 0.7)",
+                                        borderColor: "rgba(255, 206, 86, 1)",
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: "Siyah Ceket",
+                                        data: blackJacket,
+                                        backgroundColor: "rgba(75, 192, 192, 0.7)",
+                                        borderColor: "rgba(75, 192, 192, 1)",
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: "Beyaz Tişört",
+                                        data: whiteTShirt,
+                                        backgroundColor: "rgba(153, 102, 255, 0.7)",
+                                        borderColor: "rgba(153, 102, 255, 1)",
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: "Gri Kaban",
+                                        data: grayCoat,
+                                        backgroundColor: "rgba(255, 159, 64, 0.7)",
+                                        borderColor: "rgba(255, 159, 64, 1)",
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: "Kahverengi Pantolon",
+                                        data: brownPants,
+                                        backgroundColor: "rgba(0, 255, 0, 0.7)",
+                                        borderColor: "rgba(0, 255, 0, 1)",
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: "Pembe Bluz",
+                                        data: pinkBlouse,
+                                        backgroundColor: "rgba(255, 0, 0, 0.7)",
+                                        borderColor: "rgba(255, 0, 0, 1)",
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: "Sarı Şal",
+                                        data: yellowScarf,
+                                        backgroundColor: "rgba(0, 0, 255, 0.7)",
+                                        borderColor: "rgba(0, 0, 255, 1)",
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: "Turuncu Ceket",
+                                        data: orangeJacket,
+                                        backgroundColor: "rgba(192, 192, 192, 0.7)",
+                                        borderColor: "rgba(192, 192, 192, 1)",
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: "Mor Etek",
+                                        data: purpleSkirt,
+                                        backgroundColor: "rgba(128, 0, 128, 0.7)",
+                                        borderColor: "rgba(128, 0, 128, 1)",
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: "Çizgili Gömlek",
+                                        data: stripedShirt,
+                                        backgroundColor: "rgba(255, 255, 0, 0.7)",
+                                        borderColor: "rgba(255, 255, 0, 1)",
+                                        borderWidth: 1
+                                    },
+                                ],
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                    },
+                                },
+                            },
+                        });
+                    });
+                </script>
+  </div>
+    
+            </div>
+    
+          </div>
+    
+          <div class="col-lg-6">
+    
+            <div class="card">
+    
+              <div class="card-header">
+    
+                <h3 class="card-title">Stok Devir Hızı Analizi</h3>
+    
+              </div>
+    
+              <div class="card-body">
+    
+                <!-- Add your chart code here -->
+               
+<canvas id="stokDevirHiziAnaliziChart" width="800" height="400"></canvas>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      
+        var products = ["Yeşil Kazak", "Mavi Kot Pantolon", "Kırmızı Elbise", "Siyah Ceket", "Beyaz Tişört", "Gri Kaban", "Kahverengi Pantolon", "Pembe Bluz", "Sarı Şal", "Turuncu Ceket"];
+        var dailyTurnover = [5, 7, 3, 4, 8, 6, 5, 3, 2, 4];
+        var weeklyTurnover = [35, 49, 21, 28, 56, 42, 35, 21, 14, 28];
+        var monthlyTurnover = [150, 210, 90, 120, 240, 180, 150, 90, 60, 120];
+
+        // Chart.js ile çubuk grafiği oluştur
+        var ctx = document.getElementById("stokDevirHiziAnaliziChart").getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: products,
+                datasets: [
+                    {
+                        label: "Günlük Stok Devir Hızı",
+                        data: dailyTurnover,
+                        backgroundColor: "rgba(255, 99, 132, 0.7)",
+                        borderColor: "rgba(255, 99, 132, 1)",
+                        borderWidth: 1
+                    },
+                    {
+                        label: "Haftalık Stok Devir Hızı",
+                        data: weeklyTurnover,
+                        backgroundColor: "rgba(54, 162, 235, 0.7)",
+                        borderColor: "rgba(54, 162, 235, 1)",
+                        borderWidth: 1
+                    },
+                    {
+                        label: "Aylık Stok Devir Hızı",
+                        data: monthlyTurnover,
+                        backgroundColor: "rgba(255, 206, 86, 0.7)",
+                        borderColor: "rgba(255, 206, 86, 1)",
+                        borderWidth: 1
+                    },
+                ],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+            },
+        });
+    });
+</script>
+
+                   </div>
+    
+            </div>
+    
+          </div>
+    
+        </div>
+        </div>
+      </div>
+     <!-- Footer -->
+     <footer class="main-footer">
+      <!-- Your Footer Content Goes Here -->
+    </footer>
+  </div>
+
+  <!-- jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- AdminLTE JS -->
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1.0/dist/js/adminlte.min.js"></script>
+</body>
+</html>
+
